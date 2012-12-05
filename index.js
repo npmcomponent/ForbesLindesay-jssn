@@ -80,6 +80,9 @@ function encodeArray(from, to, circular) {
   }
 }
 function encodeObject(from, to, circular) {
+  if (from.constructor != Object) {
+    to['_jssn_proto'] = /^function([^\(]+)\(/.exec(from.constructor.toString())[1].trim();
+  }
   var k = keys(from);
   for (var i = 0; i < k.length; i++) {
     (function (key) {
@@ -98,7 +101,7 @@ function encodeFunction(obj, circular) {
   return 'f' + (circular.length - 1);
 }
 
-function parse(str) {
+function parse(str, constructors) {
   var source = JSON.parse(str).map(function (o, i) {
     if (type(o) === 'array') {
       return {
@@ -111,16 +114,19 @@ function parse(str) {
       return {
         encoded: o,
         decoded: false,
-        original: {}
+        original: o['_jssn_proto'] && constructors[o['_jssn_proto']] ?
+          Object.create(constructors[o['_jssn_proto']].prototype)
+          : {}
       };
     }
     if (type(o) === 'string' && i != 0) {
-      var parsed = /^function [^\(]*\(([^\)]*)\) \{(.*)\}$/.exec(o);
+      var parsed = /^function[^\(]*\(([^\)]*)\) ?\{((?:\n|\r|.)*)\}$/.exec(o);
+      if (!parsed) console.log(JSON.stringify(o));
       var args = parsed[1].split(',')
         .map(function (a) { return a.trim(); })
         .filter(function (a) { return a; });
       args.push(parsed[2]);
-      return new Function(args);
+      return Function.apply(null, args);
     } else {
       return {encoded: o, decoded: false, original: null};
     }
