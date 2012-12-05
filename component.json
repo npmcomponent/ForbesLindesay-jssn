@@ -2,9 +2,11 @@
   "name": "jssn",
   "repo": "ForbesLindesay/jssn",
   "description": "JavaScript Super Notation (JSON + circular refs + dates + (optional)functions)",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "component/object": "*"
+  },
   "development": {},
   "license": "MIT",
   "scripts": [
