@@ -14,7 +14,15 @@ function type(val){
 
   return typeof val;
 }
+
 var keys = Object.keys || require('object').keys;
+function createObject(obj) {
+  if (Object.create) return Object.create(obj);
+  function S() {}
+  S.prototype = obj;
+  S.prototype.constructor = obj.constructor;
+  return new S();
+}
 
 var json = typeof JSON === 'object' ? JSON : require('json');
 
@@ -137,7 +145,7 @@ function parse(str, constructors) {
       var original = {};
 
       if (o['_jssn_proto'] && constructors[o['_jssn_proto']]) {
-        original = Object.create(constructors[o['_jssn_proto']].prototype);
+        original = createObject(constructors[o['_jssn_proto']].prototype);
       }
       return {
         encoded: o,
