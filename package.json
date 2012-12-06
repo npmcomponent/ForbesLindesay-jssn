@@ -1,6 +1,6 @@
 {
   "name": "jssn",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "JavaScript Super Notation (JSON + circular refs + dates + (optional)functions)",
   "main": "index.js",
   "scripts": {
