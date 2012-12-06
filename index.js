@@ -120,7 +120,7 @@ function parse(str, constructors) {
       return {
         encoded: o,
         decoded: false,
-        original: 
+        original: original
       };
     }
     if (type(o) === 'string' && i != 0) {
