@@ -111,12 +111,16 @@ function parse(str, constructors) {
       };
     }
     if (type(o) === 'object') {
+      var original = {};
+
+      if (o['_jssn_proto'] && constructors[o['_jssn_proto']]) {
+        original = Object.create(constructors[o['_jssn_proto']].prototype)
+        original.constructor = constructors[o['_jssn_proto']];
+      }
       return {
         encoded: o,
         decoded: false,
-        original: o['_jssn_proto'] && constructors[o['_jssn_proto']] ?
-          Object.create(constructors[o['_jssn_proto']].prototype)
-          : {}
+        original: 
       };
     }
     if (type(o) === 'string' && i != 0) {
