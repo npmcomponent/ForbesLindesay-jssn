@@ -122,7 +122,11 @@ function encodeArray(from, to, circular) {
 }
 function encodeObject(from, to, circular) {
   if (from.constructor != Object) {
-    to['_jssn_proto'] = trim(/^function([^\(]+)\(/.exec(from.constructor.toString())[1]);
+    var parsedConstructor = /^function([^\(]+)\(/.exec(from.constructor.toString());
+    if (parsedConstructor)
+      to['_jssn_proto'] = trim(parsedConstructor[1]);
+    else
+      to['_jssn_proto'] = from.constructor.toString();
   }
   var k = keys(from);
   for (var i = 0; i < k.length; i++) {
@@ -142,7 +146,18 @@ function encodeFunction(obj, circular) {
   return 'f' + (circular.length - 1);
 }
 
-function parse(str, constructors) {
+function parse(str, cons) {
+  var constructors = {};
+  if (typeof global != 'undefined') {
+    for (var key in global) {
+      constructors[key] = global[key];
+    }
+  }
+  if (cons) {
+    for (var key in cons) {
+      constructors[key] = cons[key];
+    }
+  }
   var source = map(json.parse(str), function (o, i) {
     if (type(o) === 'array') {
       return {

@@ -128,6 +128,9 @@
       expect(decoded).to.be.a(Construction);
       expect(decoded.foo()).to.be(42);
     });
+    it('can maintain prototypes of native objects', function () {
+      jssn.stringify(new Error('foo'));
+    });
   });
 }(getJSSN(), getExpect()));
 
