@@ -117,6 +117,9 @@ function parse(str, constructors) {
         original = Object.create(constructors[o['_jssn_proto']].prototype)
         original.constructor = constructors[o['_jssn_proto']];
       }
+      if (o['_jssn_proto']) {
+        original['_jssn_proto'] = o['_jssn_proto'];//help ensure pass through
+      }
       return {
         encoded: o,
         decoded: false,
