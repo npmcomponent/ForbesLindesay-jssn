@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "keywords": [],
   "dependencies": {
-    "component/object": "*"
+    "component/object": "*",
+    "ForbesLindesay/json": "*"
   },
   "development": {},
   "license": "MIT",

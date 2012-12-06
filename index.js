@@ -16,6 +16,8 @@ function type(val){
 }
 var keys = Object.keys || require('object').keys;
 
+var json = typeof JSON === 'object' ? JSON : require('json');
+
 function map(array, fn) {
   if (array.map) return array.map(fn);
   var res = [];
@@ -42,7 +44,7 @@ function stringify(obj) {
     original: obj
   }];
   circular[0].encoded = encode(obj, circular, true);
-  return JSON.stringify(map(circular, function (o) {
+  return json.stringify(map(circular, function (o) {
     return o.encoded;
   }));
 }
@@ -119,7 +121,7 @@ function encodeFunction(obj, circular) {
 }
 
 function parse(str, constructors) {
-  var source = map(JSON.parse(str), function (o, i) {
+  var source = map(json.parse(str), function (o, i) {
     if (type(o) === 'array') {
       return {
         encoded: o,
@@ -141,7 +143,7 @@ function parse(str, constructors) {
     }
     if (type(o) === 'string' && i != 0) {
       var parsed = /^function[^\(]*\(([^\)]*)\) ?\{((?:\n|\r|.)*)\}$/.exec(o);
-      if (!parsed) console.log(JSON.stringify(o));
+      if (!parsed) console.log(json.stringify(o));
       var args = filter(map(parsed[1].split(','), 
         function (a) { return a.trim(); }), 
         function (a) { return a; });
