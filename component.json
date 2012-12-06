@@ -2,7 +2,7 @@
   "name": "jssn",
   "repo": "ForbesLindesay/jssn",
   "description": "JavaScript Super Notation (JSON + circular refs + dates + (optional)functions)",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "keywords": [],
   "dependencies": {
     "component/object": "*"
