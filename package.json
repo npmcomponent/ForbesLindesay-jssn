@@ -4,12 +4,15 @@
   "description": "JavaScript Super Notation (JSON + circular refs + dates + (optional)functions)",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha -R spec test/tests.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ForbesLindesay/jssn.git"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "expect.js": "~0.2.0"
+  }
 }

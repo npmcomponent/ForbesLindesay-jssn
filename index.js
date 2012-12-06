@@ -114,11 +114,7 @@ function parse(str, constructors) {
       var original = {};
 
       if (o['_jssn_proto'] && constructors[o['_jssn_proto']]) {
-        original = Object.create(constructors[o['_jssn_proto']].prototype)
-        original.constructor = constructors[o['_jssn_proto']];
-      }
-      if (o['_jssn_proto']) {
-        original['_jssn_proto'] = o['_jssn_proto'];//help ensure pass through
+        original = Object.create(constructors[o['_jssn_proto']].prototype);
       }
       return {
         encoded: o,
@@ -175,6 +171,7 @@ function decodeObject(from, to, circular) {
   var k = keys(from);
   for (var i = 0; i < k.length; i++) {
     (function (key) {
+      if (key === '_jssn_proto') return;
       to[key] = decode(from[key], circular);
     }(k[i]));
   }
