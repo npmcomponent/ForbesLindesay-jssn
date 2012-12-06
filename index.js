@@ -8,6 +8,16 @@ function type(val){
     case '[object Array]': return 'array';
   }
 
+  if (typeof val == 'object' && val && typeof val.length == 'number') {
+    try {
+      if (typeof val.callee == 'function') return 'arguments';
+    } catch (ex) {
+      if (ex instanceof TypeError) {
+        return 'arguments';
+      }
+    }
+  }
+
   if (val === null) return 'null';
   if (val === undefined) return 'undefined';
   if (val === Object(val)) return 'object';

@@ -1,3 +1,4 @@
+'use strict';
 (function (jssn, expect) {
   describe('circular refrences', function () {
     describe('to objects', function () {
