@@ -16,6 +16,23 @@ function type(val){
 }
 var keys = Object.keys || require('object').keys;
 
+function map(array, fn) {
+  if (array.map) return array.map(fn);
+  var res = [];
+  for (var i = 0; i < array.length; i++) {
+    res.push(fn(array[i], i, array));
+  }
+  return res;
+}
+function filter(array, fn) {
+  if (array.filter) return array.filter(fn);
+  var res = [];
+  for (var i = 0; i < array.length; i++) {
+    if (fn(array[i], i, array)) res.push(array[i]);
+  }
+  return res;
+}
+
 exports.stringify = stringify;
 exports.parse = parse;
 
@@ -25,7 +42,7 @@ function stringify(obj) {
     original: obj
   }];
   circular[0].encoded = encode(obj, circular, true);
-  return JSON.stringify(circular.map(function (o) {
+  return JSON.stringify(map(circular, function (o) {
     return o.encoded;
   }));
 }
@@ -102,7 +119,7 @@ function encodeFunction(obj, circular) {
 }
 
 function parse(str, constructors) {
-  var source = JSON.parse(str).map(function (o, i) {
+  var source = map(JSON.parse(str), function (o, i) {
     if (type(o) === 'array') {
       return {
         encoded: o,
@@ -125,9 +142,9 @@ function parse(str, constructors) {
     if (type(o) === 'string' && i != 0) {
       var parsed = /^function[^\(]*\(([^\)]*)\) ?\{((?:\n|\r|.)*)\}$/.exec(o);
       if (!parsed) console.log(JSON.stringify(o));
-      var args = parsed[1].split(',')
-        .map(function (a) { return a.trim(); })
-        .filter(function (a) { return a; });
+      var args = filter(map(parsed[1].split(','), 
+        function (a) { return a.trim(); }), 
+        function (a) { return a; });
       args.push(parsed[2]);
       return Function.apply(null, args);
     } else {
