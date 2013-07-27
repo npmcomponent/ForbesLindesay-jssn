@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/ForbesLindesay/jssn.git"
   },
-  "author": "",
+  "author": "ForbesLindesay",
   "license": "MIT",
   "devDependencies": {
     "expect.js": "~0.2.0"
