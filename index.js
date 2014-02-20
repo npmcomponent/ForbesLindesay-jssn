@@ -25,7 +25,7 @@ function type(val){
   return typeof val;
 }
 
-var keys = Object.keys || require('object').keys;
+var keys = Object.keys || require('component-object').keys;
 function createObject(obj) {
   if (Object.create) return Object.create(obj);
   function S() {}
@@ -34,7 +34,7 @@ function createObject(obj) {
   return new S();
 }
 
-var json = typeof JSON === 'object' ? JSON : require('json');
+var json = typeof JSON === 'object' ? JSON : require('ForbesLindesay-json');
 
 function map(array, fn) {
   if (array.map) return array.map(fn);
